@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('room_id')->constrained('rooms');
             $table->foreignId('user_id')->constrained('users');
-            $table->timestamp('started_at');
-            $table->timestamp('finished_at');
-            $table->int('days');
-            $table->int('price');
+            $table->dateTime('started_at');
+            $table->dateTime('finished_at');
+            $table->integer('days');
+            $table->integer('price');
             $table->timestamps();
         });
     }

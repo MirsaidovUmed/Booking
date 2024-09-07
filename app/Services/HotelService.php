@@ -8,15 +8,6 @@ use Illuminate\Support\Facades\Event;
 
 class HotelService
 {
-    protected function validateHotel(Request $request)
-    {
-        return $request->validate([
-            "title" => "required|max:255",
-            "description" => "required|max:255",
-            "poster_url" => "required|url",
-            "address" => "required",
-        ]);
-    }
 
     public function index()
     {
@@ -29,17 +20,15 @@ class HotelService
 
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $this->validateHotel($request);
         $booking = Hotel::create();
 
         return $booking;
     }
 
-    public function update(Request $request, int $id)
+    public function update(int $id)
     {
-        $this->validateHotel($request);
         return Hotel::findOrFail($id)->update();
     }
 

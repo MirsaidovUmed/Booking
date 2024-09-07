@@ -2,12 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BookingCreated;
+use App\Mail\BookingCompletedMailing;
 use App\Models\Booking;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
+    public function validateBooking(Request $request)
+    {
+        $request->validate([
+            "room_id" => "required|exists:rooms,id",
+            "user_id" => "required|exists:users,id",
+            "started_at"=>"required|date",
+            "finished_at"=>"required|date|after_or_equal:started_at",
+            "days"=> "required|integer|min:1",
+            "price"=>"required|integer",
+        ]);
+    }
+
     public function index()
     {
         $bookings = Booking::paginate(10);
@@ -16,38 +31,17 @@ class BookingController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->validateBooking($request);
         $booking = new Booking;
-        $request->validate([
-            "room_id" => "required|exists:rooms,id",
-            "user_id" => "required|exists:users,id",
-            "started_at"=>"required|date",
-            "finished_at"=>"required|date",
-            "days"=> "required|date",
-            "price"=>"required|integer",
-        ]);
         $booking->create($request->all());
+        event(new BookingCreated($booking));
         return back()->with('status', 'Booking successfully created');
     }
 
     public function update(Request $request, int $id): RedirectResponse
     {
+        $this->validateBooking($request);
         $booking = Booking::findOrFail($id);
-        $request->validate([
-            "room_id" => "required|exists:rooms,id",
-            "user_id" => "required|exists:users,id",
-            "started_at"=>"required|date",
-            "finished_at"=>"required|date",
-            "days"=> "required|date",
-            "price"=>"required|integer",
-        ]);
-
-        $booking->room_id = $request->input('room_id') ?? $booking->room_id;
-        $booking->user_id = $request->input('user_id') ?? $booking->user_id;
-        $booking->started_at = $request->input('started_at') ?? $booking->started_at;
-        $booking->finished_at = $request->input('finished_at') ?? $booking->finished_at;
-        $booking->days = $request->input('days') ?? $booking->days;
-        $booking->price = $request->input('price') ?? $booking->price;
-
         $booking->update();
         return back()->with('status', 'Booking successfully updated');
     }

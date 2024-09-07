@@ -2,54 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\BookingCreated;
-use App\Mail\BookingCompletedMailing;
 use App\Models\Booking;
+use App\Services\BookingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
-    public function validateBooking(Request $request)
+    protected $bookingService;
+
+    public function __construct(BookingService $bookingService)
     {
-        $request->validate([
-            "room_id" => "required|exists:rooms,id",
-            "user_id" => "required|exists:users,id",
-            "started_at"=>"required|date",
-            "finished_at"=>"required|date|after_or_equal:started_at",
-            "days"=> "required|integer|min:1",
-            "price"=>"required|integer",
-        ]);
+        $this->bookingService = $bookingService;
     }
 
     public function index()
     {
-        $bookings = Booking::paginate(10);
+        $bookings = $this->bookingService->index();
         return view('bookings.index', compact('bookings'));
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $this->validateBooking($request);
-        $booking = new Booking;
-        $booking->create($request->all());
-        event(new BookingCreated($booking));
+        $this->bookingService->create($request);
         return back()->with('status', 'Booking successfully created');
     }
 
     public function update(Request $request, int $id): RedirectResponse
     {
-        $this->validateBooking($request);
-        $booking = Booking::findOrFail($id);
-        $booking->update();
+        $this->bookingService->update($request, $id);
         return back()->with('status', 'Booking successfully updated');
     }
 
     public function destroy(int $id): RedirectResponse
     {
-        $booking = Booking::findOrFail($id);
-        $booking->delete();
-        return back()->with('status', 'Booking successfully deleted');    
+        $this->bookingService->delete($id);
+        return back()->with('status', 'Booking successfully deleted');
     }
 }

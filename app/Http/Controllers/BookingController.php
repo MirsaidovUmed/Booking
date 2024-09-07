@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Booking;
 use App\Services\BookingService;
+use App\Services\BookingValidationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
     protected $bookingService;
+    protected $bookingValidationService;
 
-    public function __construct(BookingService $bookingService)
+    public function __construct(BookingService $bookingService, BookingValidationService $bookingValidationService)
     {
         $this->bookingService = $bookingService;
+        $this->bookingValidationService = $bookingValidationService;
     }
 
     public function index()
@@ -24,13 +26,15 @@ class BookingController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $this->bookingService->create($request);
+        $this->bookingValidationService->validate($request->all());
+        $this->bookingService->create();
         return back()->with('status', 'Booking successfully created');
     }
 
     public function update(Request $request, int $id): RedirectResponse
     {
-        $this->bookingService->update($request, $id);
+        $this->bookingValidationService->validate($request->all());
+        $this->bookingService->update($id);
         return back()->with('status', 'Booking successfully updated');
     }
 

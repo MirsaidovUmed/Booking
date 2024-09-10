@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\Hotel;
+use App\Models\Room;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Event;
 
 class HotelService
 {
@@ -16,20 +16,21 @@ class HotelService
 
     public function getHotelById(int $id)
     {
-        return Hotel::findOrFail($id);
-
+        $rooms = Room::all();
+        $hotel = Hotel::findOrFail($id);
+        return compact('hotel','rooms');
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $booking = Hotel::create();
+        $booking = Hotel::create($request->all());
 
         return $booking;
     }
 
-    public function update(int $id)
+    public function update(Request $request, int $id)
     {
-        return Hotel::findOrFail($id)->update();
+        return Hotel::findOrFail($id)->update($request->all());
     }
 
     public function delete(int $id)

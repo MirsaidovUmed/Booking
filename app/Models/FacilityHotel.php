@@ -9,7 +9,7 @@ class FacilityHotel extends Model
 {
     use HasFactory;
 
-    protected $filable = [
+    protected $fillable = [
         'facility_id',
         'hotel_id',
     ];

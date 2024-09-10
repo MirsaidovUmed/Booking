@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Services\BookingService;
-use App\Services\BookingValidationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Validation\ValidationException;
 
 class BookingController extends Controller
 {
     protected $bookingService;
-    protected $bookingValidationService;
+    protected $validator;
 
-    public function __construct(BookingService $bookingService, BookingValidationService $bookingValidationService)
+    public function __construct(BookingService $bookingService, ValidationFactory $validator)
     {
         $this->bookingService = $bookingService;
-        $this->bookingValidationService = $bookingValidationService;
+        $this->validator = $validator;
     }
 
     public function index()
@@ -26,15 +27,29 @@ class BookingController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $this->bookingValidationService->validate($request->all());
-        $this->bookingService->create();
+        $this->validator->make($request->all(), [
+            "room_id" => "required|exists:rooms,id",
+            "user_id" => "required|exists:users,id",
+            "started_at" => "required|date",
+            "finished_at" => "required|date|after_or_equal:started_at",
+            "days" => "required|integer|min:1",
+            "price" => "required|integer",
+        ])->validate();
+        $this->bookingService->create($request);
         return back()->with('status', 'Booking successfully created');
     }
 
     public function update(Request $request, int $id): RedirectResponse
     {
-        $this->bookingValidationService->validate($request->all());
-        $this->bookingService->update($id);
+        $this->validator->make($request->all(), [
+            "room_id" => "required|exists:rooms,id",
+            "user_id" => "required|exists:users,id",
+            "started_at" => "required|date",
+            "finished_at" => "required|date|after_or_equal:started_at",
+            "days" => "required|integer|min:1",
+            "price" => "required|integer",
+        ])->validate();
+        $this->bookingService->update($request, $id);
         return back()->with('status', 'Booking successfully updated');
     }
 

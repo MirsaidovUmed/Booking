@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use App\Services\HotelService;
-use App\Services\HotelValidationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Validation\ValidationException;
 
 class HotelController extends Controller
 {
 
     public $hotelService;
-    public $hotelValidationService;
+    public $validator;
     
-    public function __construct(HotelService $hotelService, HotelValidationService $hotelValidationService)
+    public function __construct(HotelService $hotelService, ValidationFactory $validator)
     {
-        $this->hotelValidationService = $hotelValidationService;
+        $this->validator = $validator;
         $this->hotelService = $hotelService;
     }
 
@@ -29,21 +30,31 @@ class HotelController extends Controller
 
     public function getHotelById(int $id): View
     {
-        $hotel = $this->hotelService->getHotelById($id);
-        return view('hotels.show', compact('hotel'));
+        $data = $this->hotelService->getHotelById($id);
+        return view('hotels.show', $data);
     }
     
     public function store(Request $request): RedirectResponse
     {
-        $this->hotelValidationService->validate($request->all());
-        $this->hotelService->create();
-        return back()->with('status', 'Hotel Added successfully');
+        $this->validator->make($request->all(), [
+            "title" => "required|max:255",
+            "description" => "required|max:255",
+            "poster_url" => "required|url",
+            "address" => "required",
+        ]);
+        $this->hotelService->create($request);
+        return back()->with('status', 'Hotel Added successfully');    
     }
 
     public function update(Request $request, int $id): RedirectResponse
     {
-        $this->hotelValidationService->validate($request->all());
-        $this->hotelService->update($id);
+        $this->validator->make($request->all(), [
+            "title" => "required|max:255",
+            "description" => "required|max:255",
+            "poster_url" => "required|url",
+            "address" => "required",
+        ]);
+        $this->hotelService->update($request, $id);
         return back()->with('status', 'Hotel updated successfully');
     }
     

@@ -9,7 +9,7 @@ class Hotel extends Model
 {
     use HasFactory;
 
-    protected $filable = [
+    protected $fillable = [
         'title',
         'description',
         'poster_url',

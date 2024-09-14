@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\BookingDto;
 use App\Services\BookingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
-use Illuminate\Validation\ValidationException;
 
 class BookingController extends Controller
 {
@@ -22,7 +22,7 @@ class BookingController extends Controller
     public function index()
     {
         $bookings = $this->bookingService->index();
-        return view('bookings.index', compact('bookings'));
+        return view('bookings.index', ['bookings', $bookings]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -35,7 +35,16 @@ class BookingController extends Controller
             "days" => "required|integer|min:1",
             "price" => "required|integer",
         ])->validate();
-        $this->bookingService->create($request);
+
+        $bookingDto = new BookingDto(
+            $request->input('room_id'),
+            $request->input('user_id'),
+            $request->input('started_at'),
+            $request->input('finished_at'),
+            $request->input('days'),
+            $request->input('price'),
+        );
+        $this->bookingService->create($bookingDto);
         return back()->with('status', 'Booking successfully created');
     }
 
@@ -49,7 +58,15 @@ class BookingController extends Controller
             "days" => "required|integer|min:1",
             "price" => "required|integer",
         ])->validate();
-        $this->bookingService->update($request, $id);
+        $bookingDto = new BookingDto(
+            $request->input('room_id'),
+            $request->input('user_id'),
+            $request->input('started_at'),
+            $request->input('finished_at'),
+            $request->input('days'),
+            $request->input('price'),
+        );
+        $this->bookingService->update($bookingDto, $id);
         return back()->with('status', 'Booking successfully updated');
     }
 

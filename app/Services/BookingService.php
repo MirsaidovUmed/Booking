@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Dto\BookingDto;
 use App\Models\Booking;
 use App\Events\BookingCreated;
-use Illuminate\Http\Request;
 
 class BookingService
 {
@@ -14,18 +14,38 @@ class BookingService
         return Booking::paginate(10);
     }
 
-    public function create(Request $request)
+    public function create(BookingDto $bookingDto)
     {
-        $booking = Booking::create($request->all());
+        $booking = new Booking();
+
+        $booking->roomId = $bookingDto->roomId;
+        $booking->userId = $bookingDto->userId;
+        $booking->startedAt = $bookingDto->startedAt;
+        $booking->finishedAt = $bookingDto->finishedAt;
+        $booking->days = $bookingDto->days;
+        $booking->price = $bookingDto->price;
+
+        $booking->save();
         
         Event(new BookingCreated($booking));
 
         return $booking;
     }
 
-    public function update(Request $request, int $id)
+    public function update(BookingDto $bookingDto, int $id)
     {
-        return Booking::findOrFail($id)->update($request->all());
+        $booking = Booking::findOrFail($id);
+
+        $booking->roomId = $bookingDto->roomId;
+        $booking->userId = $bookingDto->userId;
+        $booking->startedAt = $bookingDto->startedAt;
+        $booking->finishedAt = $bookingDto->finishedAt;
+        $booking->days = $bookingDto->days;
+        $booking->price = $bookingDto->price;
+
+        $booking->update();
+        
+        return $booking;
     }
 
     public function delete(int $id)

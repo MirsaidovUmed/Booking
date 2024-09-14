@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dto\RoomDto;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
@@ -18,16 +19,38 @@ class RoomService
         return Room::findOrFail($id);
     }
 
-    public function create(Request $request)
+    public function create(RoomDto $roomDto)
     {
-        $room = Room::create($request->all());
+        $room = new Room();
+        
+        $room->title = $roomDto->title;
+        $room->descrption = $roomDto->description;
+        $room->posterUrl = $roomDto->posterUrl;
+        $room->floorArea = $roomDto->floorArea;
+        $room->type = $roomDto->type;
+        $room->price = $roomDto->price;
+        $room->hotelId = $roomDto->hotelId;
+
+        $room->save();
 
         return $room;
     }
 
-    public function update(Request $request, int $id)
+    public function update(RoomDto $roomDto, int $id)
     {
-        return Room::findOrFail($id)->update($request->all());
+        $room = Room::findOrFail($id); 
+
+        $room->title = $roomDto->title;
+        $room->descrption = $roomDto->description;
+        $room->posterUrl = $roomDto->posterUrl;
+        $room->floorArea = $roomDto->floorArea;
+        $room->type = $roomDto->type;
+        $room->price = $roomDto->price;
+        $room->hotelId = $roomDto->hotelId;
+
+        $room->update();
+
+        return $room;
     }
 
     public function delete(int $id)

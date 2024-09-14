@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dto\HotelDto;
 use App\Models\Hotel;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -21,16 +22,34 @@ class HotelService
         return compact('hotel','rooms');
     }
 
-    public function create(Request $request)
+    public function create(HotelDto $hotelDto)
     {
-        $booking = Hotel::create($request->all());
 
-        return $booking;
+        $hotel = New Hotel();
+
+        $hotel->title = $hotelDto->title;
+        $hotel->description = $hotelDto->description;
+        $hotel->poster_url = $hotelDto->poster_url;
+        $hotel->address = $hotelDto->address;
+
+        $hotel->create();
+
+        return $hotel;
     }
 
-    public function update(Request $request, int $id)
+    public function update(HotelDto $hotelDto, int $id)
     {
-        return Hotel::findOrFail($id)->update($request->all());
+
+        $hotel = Hotel::findOrFail($id);
+
+        $hotel->title = $hotelDto->title;
+        $hotel->description = $hotelDto->description;
+        $hotel->poster_url = $hotelDto->poster_url;
+        $hotel->address = $hotelDto->address;
+
+        $hotel->update();
+
+        return $hotel;
     }
 
     public function delete(int $id)

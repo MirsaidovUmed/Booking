@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\HotelDto;
 use App\Models\Hotel;
 use App\Services\HotelService;
 use Illuminate\Http\RedirectResponse;
@@ -25,7 +26,7 @@ class HotelController extends Controller
     public function index(): View
     {
         $hotels = $this->hotelService->index();
-        return view('hotels.index', compact('hotels'));
+        return view('hotels.index', ['hotels' => $hotels]);
     }
 
     public function getHotelById(int $id): View
@@ -42,7 +43,14 @@ class HotelController extends Controller
             "poster_url" => "required|url",
             "address" => "required",
         ]);
-        $this->hotelService->create($request);
+
+        $hotelDto = new HotelDto(
+            $request->input('title'),
+            $request->input('description'),
+            $request->input('poster_url'),
+            $request->input('address'),
+        );
+        $this->hotelService->create($hotelDto);
         return back()->with('status', 'Hotel Added successfully');    
     }
 
@@ -54,7 +62,13 @@ class HotelController extends Controller
             "poster_url" => "required|url",
             "address" => "required",
         ]);
-        $this->hotelService->update($request, $id);
+        $hotelDto = new HotelDto(
+            $request->input('title'),
+            $request->input('description'),
+            $request->input('poster_url'),
+            $request->input('address'),
+        );
+        $this->hotelService->update($hotelDto, $id);
         return back()->with('status', 'Hotel updated successfully');
     }
     

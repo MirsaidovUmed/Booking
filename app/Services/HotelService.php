@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Dto\HotelDto;
 use App\Models\Hotel;
 use App\Models\Room;
-use Illuminate\Http\Request;
 
 class HotelService
 {

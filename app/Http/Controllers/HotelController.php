@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Dto\HotelDto;
-use App\Models\Hotel;
 use App\Services\HotelService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
-use Illuminate\Validation\ValidationException;
 
 class HotelController extends Controller
 {

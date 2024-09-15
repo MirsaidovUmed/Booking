@@ -26,10 +26,10 @@ class HotelService
 
         $hotel = New Hotel();
 
-        $hotel->title = $hotelDto->title;
-        $hotel->description = $hotelDto->description;
-        $hotel->poster_url = $hotelDto->poster_url;
-        $hotel->address = $hotelDto->address;
+        $hotel->title = $hotelDto->getTitle();
+        $hotel->description = $hotelDto->getDescription();
+        $hotel->poster_url = $hotelDto->getPosterUrl();
+        $hotel->address = $hotelDto->getAddress();
 
         $hotel->create();
 
@@ -41,10 +41,10 @@ class HotelService
 
         $hotel = Hotel::findOrFail($id);
 
-        $hotel->title = $hotelDto->title;
-        $hotel->description = $hotelDto->description;
-        $hotel->poster_url = $hotelDto->poster_url;
-        $hotel->address = $hotelDto->address;
+        $hotel->title = $hotelDto->getTitle();
+        $hotel->description = $hotelDto->getDescription();
+        $hotel->poster_url = $hotelDto->getPosterUrl();
+        $hotel->address = $hotelDto->getAddress();
 
         $hotel->update();
 

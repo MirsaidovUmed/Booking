@@ -3,13 +3,13 @@
 namespace App\Dto;
 
 class RoomDto {
-    public string $title;
-    public string $description;
-    public string $posterUrl;
-    public string $floorArea;
-    public string $type;
-    public int $price;
-    public int $hotelId;
+    private string $title;
+    private string $description;
+    private string $posterUrl;
+    private string $floorArea;
+    private string $type;
+    private int $price;
+    private int $hotelId;
     
     public function __construct(string $title, string $description, string $posterUrl, string $floorArea, string $type, int $price, int $hotelId)
     {
@@ -20,5 +20,39 @@ class RoomDto {
         $this->type = $type;
         $this->price = $price;
         $this->hotelId = $hotelId;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getPosterUrl(): string
+    {
+        return $this->posterUrl;
+    }
+
+    public function getFloorArea(): string
+    {
+        return $this->floorArea;
+    }
+    public function gettType(): string
+    {
+        return $this->description;
+    }
+
+    public function getPrice(): string
+    {
+        return $this->posterUrl;
+    }
+
+    public function getHotelId(): string
+    {
+        return $this->floorArea;
     }
 }

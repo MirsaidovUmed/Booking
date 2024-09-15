@@ -23,13 +23,13 @@ class RoomService
     {
         $room = new Room();
         
-        $room->title = $roomDto->title;
-        $room->descrption = $roomDto->description;
-        $room->posterUrl = $roomDto->posterUrl;
-        $room->floorArea = $roomDto->floorArea;
-        $room->type = $roomDto->type;
-        $room->price = $roomDto->price;
-        $room->hotelId = $roomDto->hotelId;
+        $room->title = $roomDto->getTitle();
+        $room->descrption = $roomDto->getDescription();
+        $room->posterUrl = $roomDto->getPosterUrl();
+        $room->floorArea = $roomDto->getFloorArea();
+        $room->type = $roomDto->gettType();
+        $room->price = $roomDto->getPrice();
+        $room->hotelId = $roomDto->getHotelId();
 
         $room->save();
 
@@ -40,13 +40,13 @@ class RoomService
     {
         $room = Room::findOrFail($id); 
 
-        $room->title = $roomDto->title;
-        $room->descrption = $roomDto->description;
-        $room->posterUrl = $roomDto->posterUrl;
-        $room->floorArea = $roomDto->floorArea;
-        $room->type = $roomDto->type;
-        $room->price = $roomDto->price;
-        $room->hotelId = $roomDto->hotelId;
+        $room->title = $roomDto->getTitle();
+        $room->descrption = $roomDto->getDescription();
+        $room->posterUrl = $roomDto->getPosterUrl();
+        $room->floorArea = $roomDto->getFloorArea();
+        $room->type = $roomDto->gettType();
+        $room->price = $roomDto->getPrice();
+        $room->hotelId = $roomDto->getHotelId();
 
         $room->update();
 

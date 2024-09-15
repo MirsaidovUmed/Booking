@@ -3,16 +3,36 @@
 namespace App\Dto;
 
 class HotelDto{
-    public string $title;
-    public string $description;
-    public string $poster_url;
-    public string $address;
+    private string $title;
+    private string $description;
+    private string $posterUrl;
+    private string $address;
 
-    public function __construct(string $title, string $description, string $poster_url, string $address)
+    public function __construct(string $title, string $description, string $posterUrl, string $address)
     {
         $this->title = $title;
         $this->description = $description;
-        $this->poster_url = $poster_url;
+        $this->posterUrl = $posterUrl;
         $this->address = $address;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getPosterUrl(): string
+    {
+        return $this->posterUrl;
+    }
+
+    public function getAddress(): string
+    {
+        return $this->address;
     }
 }

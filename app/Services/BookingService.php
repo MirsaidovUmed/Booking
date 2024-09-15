@@ -18,12 +18,12 @@ class BookingService
     {
         $booking = new Booking();
 
-        $booking->roomId = $bookingDto->roomId;
-        $booking->userId = $bookingDto->userId;
-        $booking->startedAt = $bookingDto->startedAt;
-        $booking->finishedAt = $bookingDto->finishedAt;
-        $booking->days = $bookingDto->days;
-        $booking->price = $bookingDto->price;
+        $booking->roomId = $bookingDto->getRoomId();
+        $booking->userId = $bookingDto->getUserId();
+        $booking->startedAt = $bookingDto->getStartedAt();
+        $booking->finishedAt = $bookingDto->getFinishedAt();
+        $booking->days = $bookingDto->getDays();
+        $booking->price = $bookingDto->getPrice();
 
         $booking->save();
         
@@ -36,12 +36,12 @@ class BookingService
     {
         $booking = Booking::findOrFail($id);
 
-        $booking->roomId = $bookingDto->roomId;
-        $booking->userId = $bookingDto->userId;
-        $booking->startedAt = $bookingDto->startedAt;
-        $booking->finishedAt = $bookingDto->finishedAt;
-        $booking->days = $bookingDto->days;
-        $booking->price = $bookingDto->price;
+        $booking->roomId = $bookingDto->getRoomId();
+        $booking->userId = $bookingDto->getUserId();
+        $booking->startedAt = $bookingDto->getStartedAt();
+        $booking->finishedAt = $bookingDto->getFinishedAt();
+        $booking->days = $bookingDto->getDays();
+        $booking->price = $bookingDto->getPrice();
 
         $booking->update();
         

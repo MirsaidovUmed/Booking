@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class BookingCompletedMailing extends Mailable
+class BookingUpdateMailing extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,7 +30,7 @@ class BookingCompletedMailing extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Бронирование отелей',
+            subject: 'Booking Update Mailing',
         );
     }
 
@@ -40,7 +40,7 @@ class BookingCompletedMailing extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.create',
+            view: 'mails.update',
         );
     }
 

@@ -15,4 +15,9 @@ class Hotel extends Model
         'poster_url',
         'address',
     ];
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

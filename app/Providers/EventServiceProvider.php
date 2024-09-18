@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\BookingCreated::class => [
             \App\Listeners\SendBookingConfirmation::class,
         ],
+        \App\Events\BookingUpdated::class => [
+            \App\Listeners\SendBookingChanging::class,
+        ],
     ];
 
     /**

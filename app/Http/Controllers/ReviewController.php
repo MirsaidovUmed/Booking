@@ -29,10 +29,10 @@ class ReviewController extends Controller
         ]);
 
         $reviewDto = new ReviewDto(
-            $request->input('user_id'),
-            $request->input('user_id'),
-            $request->input('review'),
-            $request->input('raiting'),
+            $request['user_id'],
+            $request['hotel_id'],
+            $request['review'],
+            $request['raiting'],
         );
 
         $this->reviewService->createReview($reviewDto);

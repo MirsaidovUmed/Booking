@@ -15,7 +15,7 @@ class ReviewService{
         $review->review = $reviewDto->getReview();
         $review->raiting = $reviewDto->getRaiting();
 
-        $review->create();
+        $review->save();
         
         return $review;
     }

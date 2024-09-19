@@ -46,13 +46,13 @@ class RoomController extends Controller
         ]);
 
         $roomDto = new RoomDto(
-            $request->input('title'),
-            $request->input('description'),
-            $request->input('poster_url'),
-            $request->input('floor_area'),
-            $request->input('price'),
-            $request->input('type'),
-            $request->input('hotel_id'),
+            $request['title'],
+            $request['description'],
+            $request['poster_url'],
+        $request['floor_area'],
+            $request['price'],
+            $request['type'],
+            $request['hotel_id'],
         );
 
         $this->roomService->create($roomDto);
@@ -61,14 +61,24 @@ class RoomController extends Controller
 
     public function update(Request $request, int $id): RedirectResponse
     {
+        $this->validator->make($request->all(), [
+            "title" => "required|max:255",
+            "description" => "required|max:255",
+            "poster_url" => "required|url",
+            "floor_area" => "required",
+            "price" => "required|integer",
+            "type" => "required",
+            "hotel_id" => "required|exists:hotels,id",
+        ]);
+
         $roomDto = new RoomDto(
-            $request->input('title'),
-            $request->input('description'),
-            $request->input('poster_url'),
-            $request->input('floor_area'),
-            $request->input('price'),
-            $request->input('type'),
-            $request->input('hotel_id'),
+            $request['title'],
+            $request['description'],
+            $request['poster_url'],
+        $request['floor_area'],
+            $request['price'],
+            $request['type'],
+            $request['hotel_id'],
         );
 
         $this->roomService->update($roomDto, $id);

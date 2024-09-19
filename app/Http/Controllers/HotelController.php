@@ -43,10 +43,10 @@ class HotelController extends Controller
         ]);
 
         $hotelDto = new HotelDto(
-            $request->input('title'),
-            $request->input('description'),
-            $request->input('poster_url'),
-            $request->input('address'),
+            $request['title'],
+            $request['description'],
+            $request['poster_url'],
+            $request['address'],
         );
         $this->hotelService->create($hotelDto);
         return back()->with('status', 'Hotel Added successfully');    
@@ -61,10 +61,10 @@ class HotelController extends Controller
             "address" => "required",
         ]);
         $hotelDto = new HotelDto(
-            $request->input('title'),
-            $request->input('description'),
-            $request->input('poster_url'),
-            $request->input('address'),
+            $request['title'],
+            $request['description'],
+            $request['poster_url'],
+            $request['address'],
         );
         $this->hotelService->update($hotelDto, $id);
         return back()->with('status', 'Hotel updated successfully');

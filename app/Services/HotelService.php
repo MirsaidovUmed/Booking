@@ -31,7 +31,7 @@ class HotelService
         $hotel->poster_url = $hotelDto->getPosterUrl();
         $hotel->address = $hotelDto->getAddress();
 
-        $hotel->create();
+        $hotel->save();
 
         return $hotel;
     }

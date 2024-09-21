@@ -17,7 +17,12 @@ class HotelFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->company,
+            'description' => $this->faker->text(200),
+            'poster_url' => $this->faker->imageUrl(640, 480, 'hotels'),
+            'address' => $this->faker->address,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

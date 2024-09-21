@@ -37,14 +37,13 @@ class BookingController extends Controller
         ])->validate();
 
         $bookingDto = new BookingDto(
-            $request['room_id'],
-            $request['user_id'],
-            $request['started_at'],
-            $request['finished_at'],
-            $request['days'],
-            $request['price'],
+            $request->input('room_id'),
+            $request->input('user_id'),
+            $request->input('started_at'),
+            $request->input('finished_at'),
+            $request->input('days'),
+            $request->input('price'),
         );
-        
         $this->bookingService->create($bookingDto);
         return back()->with('status', 'Booking successfully created');
     }
@@ -59,16 +58,14 @@ class BookingController extends Controller
             "days" => "required|integer|min:1",
             "price" => "required|integer",
         ])->validate();
-
         $bookingDto = new BookingDto(
-            $request['room_id'],
-            $request['user_id'],
-            $request['started_at'],
-            $request['finished_at'],
-            $request['days'],
-            $request['price'],
+            $request->input('room_id'),
+            $request->input('user_id'),
+            $request->input('started_at'),
+            $request->input('finished_at'),
+            $request->input('days'),
+            $request->input('price'),
         );
-
         $this->bookingService->update($bookingDto, $id);
         return back()->with('status', 'Booking successfully updated');
     }

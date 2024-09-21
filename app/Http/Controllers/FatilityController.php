@@ -27,9 +27,9 @@ class FatilityController extends Controller
         ])->validate();
 
         $facilityDto = new FacilityDto(
-            $request['title'],
-            $request['entity_id'],
-            $request['entity_type']
+            $request->input('title'),
+            $request->input('entity_id'),
+            $request->input('entity_type')
         );
 
         $this->facilityService->create($facilityDto);
@@ -46,9 +46,9 @@ class FatilityController extends Controller
         ])->validate();
 
         $facilityDto = new FacilityDto(
-            $request['title'],
-            $request['entity_id'],
-            $request['entity_type']
+            $request->input('title'),
+            $request->input('entity_id'),
+            $request->input('entity_type')
         );
         
         $this->facilityService->update($facilityDto, $id);

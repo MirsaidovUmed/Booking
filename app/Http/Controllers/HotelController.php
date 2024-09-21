@@ -33,7 +33,7 @@ class HotelController extends Controller
         return view('hotels.show', $data);
     }
     
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $this->validator->make($request->all(), [
             "title" => "required|max:255",
@@ -43,16 +43,16 @@ class HotelController extends Controller
         ]);
 
         $hotelDto = new HotelDto(
-            $request['title'],
-            $request['description'],
-            $request['poster_url'],
-            $request['address'],
+            $request->input('title'),
+            $request->input('description'),
+            $request->input('poster_url'),
+            $request->input('address'),
         );
         $this->hotelService->create($hotelDto);
-        return back()->with('status', 'Hotel Added successfully');    
+        return response()->json(['status' => 'Hotel Added successfully'], 201);    
     }
 
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, int $id)
     {
         $this->validator->make($request->all(), [
             "title" => "required|max:255",
@@ -61,18 +61,19 @@ class HotelController extends Controller
             "address" => "required",
         ]);
         $hotelDto = new HotelDto(
-            $request['title'],
-            $request['description'],
-            $request['poster_url'],
-            $request['address'],
+            $request->input('title'),
+            $request->input('description'),
+            $request->input('poster_url'),
+            $request->input('address'),
         );
         $this->hotelService->update($hotelDto, $id);
-        return back()->with('status', 'Hotel updated successfully');
+        return response()->json(['status' => 'Hotel Added successfully'], 202);    
     }
     
-    public function destroy(int $id): RedirectResponse
+    public function destroy(int $id)
     {
         $this->hotelService->delete($id);
-        return back()->with('status', 'Hotel deleted successfully');
+        return response()->json(['status' => 'Hotel Added successfully'], 204);    
+
     }
 }

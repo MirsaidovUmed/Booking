@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Dto\HotelCreateDto;
 use App\Dto\HotelDto;
+use App\Dto\HotelUpdateDto;
 use App\Models\Hotel;
 use App\Models\Room;
 
@@ -21,9 +23,8 @@ class HotelService
         return compact('hotel','rooms');
     }
 
-    public function create(HotelDto $hotelDto)
+    public function create(HotelCreateDto $hotelDto)
     {
-
         $hotel = New Hotel();
 
         $hotel->title = $hotelDto->getTitle();
@@ -36,9 +37,8 @@ class HotelService
         return $hotel;
     }
 
-    public function update(HotelDto $hotelDto, int $id)
+    public function update(HotelUpdateDto $hotelDto, int $id)
     {
-
         $hotel = Hotel::findOrFail($id);
 
         $hotel->title = $hotelDto->getTitle();

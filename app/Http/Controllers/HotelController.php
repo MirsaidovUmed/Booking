@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Dto\HotelDto;
+use App\Dto\HotelCreateDto;
+use App\Dto\HotelUpdateDto;
 use App\Services\HotelService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -42,7 +44,7 @@ class HotelController extends Controller
             "address" => "required",
         ]);
 
-        $hotelDto = new HotelDto(
+        $hotelDto = new HotelCreateDto(
             $request->input('title'),
             $request->input('description'),
             $request->input('poster_url'),
@@ -60,7 +62,7 @@ class HotelController extends Controller
             "poster_url" => "required|url",
             "address" => "required",
         ]);
-        $hotelDto = new HotelDto(
+        $hotelDto = new HotelUpdateDto(
             $request->input('title'),
             $request->input('description'),
             $request->input('poster_url'),

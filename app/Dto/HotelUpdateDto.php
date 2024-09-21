@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-class HotelDto{
+class HotelUpdateDto{
     private ?string $title;
     private ?string $description;
     private ?string $posterUrl;

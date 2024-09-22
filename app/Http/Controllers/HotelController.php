@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\HotelDto;
 use App\Dto\HotelCreateDto;
 use App\Dto\HotelUpdateDto;
 use App\Services\HotelService;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
@@ -14,7 +12,7 @@ use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 class HotelController extends Controller
 {
 
-    public $hotelService;
+    protected HotelService $hotelService;
     public $validator;
     
     public function __construct(HotelService $hotelService, ValidationFactory $validator)
@@ -69,13 +67,12 @@ class HotelController extends Controller
             $request->input('address'),
         );
         $this->hotelService->update($hotelDto, $id);
-        return response()->json(['status' => 'Hotel Added successfully'], 202);    
+        return response()->json(['status' => 'Hotel Updated successfully'], 202);    
     }
     
     public function destroy(int $id)
     {
         $this->hotelService->delete($id);
-        return response()->json(['status' => 'Hotel Added successfully'], 204);    
-
+        return response()->json(['status' => 'Hotel Deleted successfully'], 204);
     }
 }

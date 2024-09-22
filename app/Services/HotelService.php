@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Dto\HotelCreateDto;
-use App\Dto\HotelDto;
 use App\Dto\HotelUpdateDto;
 use App\Models\Hotel;
 use App\Models\Room;

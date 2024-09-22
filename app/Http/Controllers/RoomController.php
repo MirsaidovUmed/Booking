@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\RoomDto;
+use App\Dto\RoomCreateDto;
+use App\Dto\RoomUpdateDto;
 use App\Services\RoomService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -24,16 +25,16 @@ class RoomController extends Controller
     public function index(): View
     {
         $rooms = $this->roomService->index();
-        return view('rooms.room-list-item', ['rooms', $rooms]);
+        return view('components.rooms.room-list-item', ['rooms' => $rooms]);
     }
 
     public function getRoomById(int $id)
     {
         $room = $this->roomService->getRoomById($id);
-        return view('rooms.room-list-item', ['room', $room]);
+        return view('components.rooms.room-list-item', ['room' => $room]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $this->validator->make($request->all(), [
             "title" => "required|max:255",
@@ -45,39 +46,39 @@ class RoomController extends Controller
             "hotel_id" => "required|exists:hotels,id",
         ]);
 
-        $roomDto = new RoomDto(
+        $roomDto = new RoomCreateDto(
             $request->input('title'),
             $request->input('description'),
             $request->input('poster_url'),
             $request->input('floor_area'),
-            $request->input('price'),
             $request->input('type'),
+            $request->input('price'),
             $request->input('hotel_id'),
         );
 
         $this->roomService->create($roomDto);
-        return back()->with('status', 'Room Added successfully');
+        return response()->json(['status' => 'Room Added successfully'], 201);    
     }
 
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, int $id)
     {
-        $roomDto = new RoomDto(
+        $roomDto = new RoomUpdateDto(
             $request->input('title'),
             $request->input('description'),
             $request->input('poster_url'),
             $request->input('floor_area'),
-            $request->input('price'),
             $request->input('type'),
+            $request->input('price'),
             $request->input('hotel_id'),
         );
 
         $this->roomService->update($roomDto, $id);
-        return back()->with('status', 'Room updated successfully');
+        return response()->json(['status' => 'Room Updated successfully'], 202);    
     }
 
-    public function destroy(int $id): RedirectResponse
+    public function destroy(int $id)
     {
         $this->roomService->delete($id);
-        return back()->with('status', 'Room deleted successfully');
+        return response()->json(['status' => 'Room Deleted successfully'], 204);    
     }
 }

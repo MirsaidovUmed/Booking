@@ -2,16 +2,16 @@
 
 namespace App\Dto;
 
-class RoomDto {
+class RoomUpdateDto {
     private string $title;
     private string $description;
     private string $posterUrl;
-    private string $floorArea;
+    private float $floorArea;
     private string $type;
     private int $price;
     private int $hotelId;
     
-    public function __construct(string $title, string $description, string $posterUrl, string $floorArea, string $type, int $price, int $hotelId)
+    public function __construct(string $title, string $description, string $posterUrl, float $floorArea, string $type, int $price, int $hotelId)
     {
         $this->title = $title;
         $this->description = $description;
@@ -37,22 +37,22 @@ class RoomDto {
         return $this->posterUrl;
     }
 
-    public function getFloorArea(): string
+    public function getFloorArea(): float
     {
         return $this->floorArea;
     }
     public function gettType(): string
     {
-        return $this->description;
+        return $this->type;
     }
 
-    public function getPrice(): string
+    public function getPrice(): int
     {
-        return $this->posterUrl;
+        return $this->price;
     }
 
-    public function getHotelId(): string
+    public function getHotelId(): int
     {
-        return $this->floorArea;
+        return $this->hotelId;
     }
 }

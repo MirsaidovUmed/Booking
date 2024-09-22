@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Dto\RoomDto;
+use App\Dto\RoomCreateDto;
+use App\Dto\RoomUpdateDto;
 use App\Models\Room;
-use Illuminate\Http\Request;
 
 class RoomService
 {
@@ -19,34 +19,34 @@ class RoomService
         return Room::findOrFail($id);
     }
 
-    public function create(RoomDto $roomDto)
+    public function create(RoomCreateDto $roomDto)
     {
         $room = new Room();
         
         $room->title = $roomDto->getTitle();
-        $room->descrption = $roomDto->getDescription();
-        $room->posterUrl = $roomDto->getPosterUrl();
-        $room->floorArea = $roomDto->getFloorArea();
-        $room->type = $roomDto->gettType();
+        $room->description = $roomDto->getDescription();
+        $room->poster_url = $roomDto->getPosterUrl();
+        $room->floor_area = $roomDto->getFloorArea();
+        $room->type = $roomDto->getType();
         $room->price = $roomDto->getPrice();
-        $room->hotelId = $roomDto->getHotelId();
+        $room->hotel_id = $roomDto->getHotelId();
 
         $room->save();
 
         return $room;
     }
 
-    public function update(RoomDto $roomDto, int $id)
+    public function update(RoomUpdateDto $roomDto, int $id)
     {
         $room = Room::findOrFail($id); 
 
         $room->title = $roomDto->getTitle();
-        $room->descrption = $roomDto->getDescription();
-        $room->posterUrl = $roomDto->getPosterUrl();
-        $room->floorArea = $roomDto->getFloorArea();
+        $room->description = $roomDto->getDescription();
+        $room->poster_url = $roomDto->getPosterUrl();
+        $room->floor_area = $roomDto->getFloorArea();
         $room->type = $roomDto->gettType();
         $room->price = $roomDto->getPrice();
-        $room->hotelId = $roomDto->getHotelId();
+        $room->hotel_id = $roomDto->getHotelId();
 
         $room->update();
 

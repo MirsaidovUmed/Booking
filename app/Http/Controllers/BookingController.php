@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\BookingDto;
+use App\Dto\BookingCreateDto;
+use App\Dto\BookingUpdateDto;
 use App\Services\BookingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,10 +23,10 @@ class BookingController extends Controller
     public function index()
     {
         $bookings = $this->bookingService->index();
-        return view('bookings.index', ['bookings', $bookings]);
+        return view('bookings.index', ['bookings' => $bookings]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $this->validator->make($request->all(), [
             "room_id" => "required|exists:rooms,id",
@@ -36,7 +37,7 @@ class BookingController extends Controller
             "price" => "required|integer",
         ])->validate();
 
-        $bookingDto = new BookingDto(
+        $bookingDto = new BookingCreateDto(
             $request->input('room_id'),
             $request->input('user_id'),
             $request->input('started_at'),
@@ -45,10 +46,10 @@ class BookingController extends Controller
             $request->input('price'),
         );
         $this->bookingService->create($bookingDto);
-        return back()->with('status', 'Booking successfully created');
+        return response()->json(['status' => 'Booking Added successfully'], 201);    
     }
 
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, int $id)
     {
         $this->validator->make($request->all(), [
             "room_id" => "required|exists:rooms,id",
@@ -58,7 +59,7 @@ class BookingController extends Controller
             "days" => "required|integer|min:1",
             "price" => "required|integer",
         ])->validate();
-        $bookingDto = new BookingDto(
+        $bookingDto = new BookingUpdateDto(
             $request->input('room_id'),
             $request->input('user_id'),
             $request->input('started_at'),
@@ -67,12 +68,12 @@ class BookingController extends Controller
             $request->input('price'),
         );
         $this->bookingService->update($bookingDto, $id);
-        return back()->with('status', 'Booking successfully updated');
+        return response()->json(['status' => 'Booking Updated successfully'], 202);    
     }
 
-    public function destroy(int $id): RedirectResponse
+    public function destroy(int $id)
     {
         $this->bookingService->delete($id);
-        return back()->with('status', 'Booking successfully deleted');
+        return response()->noContent();
     }
 }

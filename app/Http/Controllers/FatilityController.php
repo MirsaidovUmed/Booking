@@ -34,7 +34,7 @@ class FatilityController extends Controller
 
         $this->facilityService->create($facilityDto);
 
-        return back()->with('status', 'Facility created successfully');
+        return response()->json(['status' => 'Facility Added successfully'], 201);    
     }
 
     public function update(Request $request, int $id)
@@ -52,5 +52,12 @@ class FatilityController extends Controller
         );
         
         $this->facilityService->update($facilityDto, $id);
+        return response()->json(['status' => 'Facility Updated successfully'], 202);    
+    }
+
+    public function destroy(int $id)
+    {
+        $this->facilityService->delete($id);
+        return response()->noContent();
     }
 }

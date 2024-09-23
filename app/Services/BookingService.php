@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-use App\Dto\BookingDto;
+use App\Dto\BookingCreateDto;
+use App\Dto\BookingUpdateDto;
+use App\Events\BookingUpdated;
 use App\Models\Booking;
 use App\Events\BookingCreated;
 
@@ -14,37 +16,39 @@ class BookingService
         return Booking::paginate(10);
     }
 
-    public function create(BookingDto $bookingDto)
+    public function create(BookingCreateDto $bookingDto)
     {
         $booking = new Booking();
 
-        $booking->roomId = $bookingDto->getRoomId();
-        $booking->userId = $bookingDto->getUserId();
-        $booking->startedAt = $bookingDto->getStartedAt();
-        $booking->finishedAt = $bookingDto->getFinishedAt();
+        $booking->room_id = $bookingDto->getRoomId();
+        $booking->user_id = $bookingDto->getUserId();
+        $booking->started_at = $bookingDto->getStartedAt();
+        $booking->finished_at = $bookingDto->getFinishedAt();
         $booking->days = $bookingDto->getDays();
         $booking->price = $bookingDto->getPrice();
 
         $booking->save();
-        
-        Event(new BookingCreated($booking));
+
+        event(new BookingCreated($booking));
 
         return $booking;
     }
 
-    public function update(BookingDto $bookingDto, int $id)
+    public function update(BookingUpdateDto $bookingDto, int $id)
     {
         $booking = Booking::findOrFail($id);
 
-        $booking->roomId = $bookingDto->getRoomId();
-        $booking->userId = $bookingDto->getUserId();
-        $booking->startedAt = $bookingDto->getStartedAt();
-        $booking->finishedAt = $bookingDto->getFinishedAt();
+        $booking->room_id = $bookingDto->getRoomId();
+        $booking->user_id = $bookingDto->getUserId();
+        $booking->started_at = $bookingDto->getStartedAt();
+        $booking->finished_at = $bookingDto->getFinishedAt();
         $booking->days = $bookingDto->getDays();
         $booking->price = $bookingDto->getPrice();
 
         $booking->update();
-        
+
+        event(new BookingUpdated($booking));
+
         return $booking;
     }
 

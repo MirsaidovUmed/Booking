@@ -126,11 +126,14 @@
             "title": {
               "type": "string"
             },
-            "hotel_id": {
+            "facility_id": {
               "type": "integer"
             },
-            "room_id": {
+            "entity_id": {
               "type": "integer"
+            },
+            "entity_type": {
+              "type": "string"
             }
           }
         }

@@ -1,0 +1,546 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Hotel Booking API",
+      "description": "API documentation for Hotel and Room management system",
+      "license": {
+        "name": "MIT"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://127.0.0.1:8000",
+        "description": "Local server"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "BearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "full_name": {
+              "type": "string"
+            },
+            "role_id": {
+              "type": "integer"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "Hotel": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "poster_url": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            }
+          }
+        },
+        "Room": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "poster_url": {
+              "type": "string"
+            },
+            "floor_area": {
+              "type": "string"
+            },
+            "price": {
+              "type": "number"
+            },
+            "hotel_id": {
+              "type": "integer"
+            }
+          }
+        },
+        "Booking": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "room_id": {
+              "type": "integer"
+            },
+            "user_id": {
+              "type": "integer"
+            },
+            "started_at": {
+              "type": "string",
+              "format": "date"
+            },
+            "finished_at": {
+              "type": "string",
+              "format": "date"
+            },
+            "days": {
+              "type": "number"
+            },
+            "price": {
+              "type": "number"
+            }
+          }
+        },
+        "Facility": {
+            "type": "object",
+            "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "hotel_id": {
+              "type": "integer"
+            },
+            "room_id": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "paths": {
+      "/hotels": {
+        "get": {
+          "summary": "Get all hotels",
+          "operationId": "getHotels",
+          "tags": ["Hotels"],
+          "responses": {
+            "200": {
+              "description": "List of hotels",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Hotel"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new hotel (Admin only)",
+          "operationId": "createHotel",
+          "tags": ["Hotels"],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hotel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Hotel created successfully"
+            },
+            "403": {
+              "description": "Forbidden - Admin role required"
+            }
+          }
+        }
+      },
+      "/hotels/{id}": {
+        "get": {
+          "summary": "Get hotel by ID",
+          "operationId": "getHotelById",
+          "tags": ["Hotels"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Hotel details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Hotel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a hotel (Admin only)",
+          "operationId": "updateHotel",
+          "tags": ["Hotels"],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hotel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Hotel updated successfully"
+            },
+            "403": {
+              "description": "Forbidden - Admin role required"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a hotel (Admin only)",
+          "operationId": "deleteHotel",
+          "tags": ["Hotels"],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Hotel deleted successfully"
+            },
+            "403": {
+              "description": "Forbidden - Admin role required"
+            }
+          }
+        }
+      },
+      "/rooms": {
+        "get": {
+          "summary": "Get all rooms",
+          "operationId": "getRooms",
+          "tags": ["Rooms"],
+          "responses": {
+            "200": {
+              "description": "List of rooms",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Room"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new room (Admin only)",
+          "operationId": "createRoom",
+          "tags": ["Rooms"],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Room"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Room created successfully"
+            },
+            "403": {
+              "description": "Forbidden - Admin role required"
+            }
+          }
+        }
+      },
+      "/rooms/{id}": {
+        "get": {
+          "summary": "Get room by ID",
+          "operationId": "getRoomById",
+          "tags": ["Rooms"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Room details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Room"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a room (Admin only)",
+          "operationId": "updateRoom",
+          "tags": ["Rooms"],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Room"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Room updated successfully"
+            },
+            "403": {
+              "description": "Forbidden - Admin role required"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a room (Admin only)",
+          "operationId": "deleteRoom",
+          "tags": ["Rooms"],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Room deleted successfully"
+            },
+            "403": {
+              "description": "Forbidden - Admin role required"
+            }
+          }
+        }
+      },
+      "/bookings": {
+        "get": {
+          "summary": "Get all bookings (User authenticated)",
+          "operationId": "getBookings",
+          "tags": ["Bookings"],
+          "responses": {
+            "200": {
+              "description": "List of bookings",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Booking"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new booking (User authenticated)",
+          "operationId": "createBooking",
+          "tags": ["Bookings"],
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Booking"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Booking created successfully"
+            }
+          }
+        }
+      },
+      "/bookings/{id}": {
+          "put": {
+            "summary": "Update a booking (User authenticated)",
+            "operationId": "updateBooking",
+            "tags": ["Bookings"],
+            "security": [
+              {
+                "BearerAuth": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Booking"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Booking updated successfully"
+              }
+            }
+          },
+          "delete": {
+            "summary": "Delete a booking (User authenticated)",
+            "operationId": "deleteBooking",
+            "tags": ["Bookings"],
+            "security": [
+              {
+                "BearerAuth": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            ],
+            "responses": {
+              "204": {
+                "description": "Booking deleted successfully"
+              }
+            }
+          }
+        }
+    }
+  }
+  

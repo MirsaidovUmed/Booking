@@ -565,6 +565,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'nextapps/laravel-swagger-ui' => array(
+            'pretty_version' => '0.10.1',
+            'version' => '0.10.1.0',
+            'reference' => 'a308e5e4553989ba372755f979d09f5135893bf8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../nextapps/laravel-swagger-ui',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'nikic/php-parser' => array(
             'pretty_version' => 'v5.1.0',
             'version' => '5.1.0.0',

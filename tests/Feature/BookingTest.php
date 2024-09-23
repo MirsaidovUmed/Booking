@@ -26,6 +26,9 @@ class BookingTest extends TestCase
 
     public function test_bookings_index()
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $response = $this->get('/bookings');
         $response->assertStatus(200);
     }
@@ -33,7 +36,6 @@ class BookingTest extends TestCase
     public function test_booking_can_be_created()
     {
         $user = User::factory()->create(['email' => 'umedmirsaidov61+' . uniqid() . '@gmail.com']);
-        var_dump($user);
         $room = Room::factory()->create();
 
         $this->actingAs($user);

@@ -53,9 +53,9 @@ class BookingTest extends TestCase
             'days' => $days,
             'price' => $price,
         ];
-
+        
         $response = $this->post('bookings', $attributes);
-
+        
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('bookings', $attributes);

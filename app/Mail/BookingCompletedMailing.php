@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,14 +15,14 @@ class BookingCompletedMailing extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $booking;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user)
+    public function __construct(Booking $booking)
     {
-        $this->user = $user;
+        $this->booking = $booking;
     }
 
     /**

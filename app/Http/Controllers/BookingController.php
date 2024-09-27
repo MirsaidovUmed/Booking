@@ -8,6 +8,7 @@ use App\Services\BookingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -24,6 +25,12 @@ class BookingController extends Controller
     {
         $bookings = $this->bookingService->index();
         return view('bookings.index', ['bookings' => $bookings]);
+    }
+
+    public function getBookingById(int $id)
+    {
+        $booking = $this->bookingService->getBookingById($id);
+        return view('bookings.show', ['booking' => $booking]);
     }
 
     public function store(Request $request)
@@ -46,7 +53,7 @@ class BookingController extends Controller
             $request->input('price'),
         );
         $this->bookingService->create($bookingDto);
-        return response()->json(['status' => 'Booking Added successfully'], 201);    
+        return response()->json(['status' => 'Booking Added successfully'], 201); 
     }
 
     public function update(Request $request, int $id)

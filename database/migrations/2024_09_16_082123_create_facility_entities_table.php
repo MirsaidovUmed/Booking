@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('facility_entities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('facility_id')->constrained('facilities')->onDelete('cascade');
-            $table->unsignedBigInteger('entity_id');
-            $table->string('entity_type');
+            $table->morphs('entity');
             $table->timestamps();
         });
     }

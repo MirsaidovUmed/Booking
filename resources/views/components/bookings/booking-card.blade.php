@@ -4,7 +4,7 @@
             <div class="w-full">
                 <p class="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">Бронирование
                     #{{ $booking->id }}</p>
-                <p class="text-base font-medium leading-6 text-gray-600 ">{{ $booking->created_at->format('d-m-y H:i') }}</p>
+                <p class="text-base font-medium leading-6 text-gray-600 ">{{ $booking->created_at }}</p>
             </div>
             @if($showLink ?? false)
             <div class="flex">

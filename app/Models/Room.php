@@ -28,4 +28,9 @@ class Room extends Model
     {
         return $this->hasMany(Room::class);
     }
+
+    public function facilities()
+    {
+        return $this->morphMany(FacilityEntity::class, 'entity');
+    }
 }

@@ -20,4 +20,9 @@ class Hotel extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function facilities()
+    {
+        return $this->morphMany(FacilityEntity::class, 'entity');
+    }
 }

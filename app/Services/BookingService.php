@@ -13,7 +13,12 @@ class BookingService
 
     public function index()
     {
-        return Booking::paginate(10);
+        return Booking::with('room')->paginate(10);
+    }
+
+    public function getBookingById(int $id)
+    {
+        return Booking::findOrFail($id);
     }
 
     public function create(BookingCreateDto $bookingDto)

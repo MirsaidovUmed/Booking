@@ -51,6 +51,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::middleware('auth')->group(function(){
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/booking', [BookingController::class, 'index'])->name('bookings.show');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::put('/bookings/{id}', [BookingController::class, 'update'])->name('bookings.update');
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.delete');

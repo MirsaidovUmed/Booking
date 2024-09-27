@@ -12,4 +12,9 @@ class FacilityEntity extends Model
     {
         return $this->belongsTo(Facility::class);
     }
+
+    public function entity()
+    {
+        return $this->morphTo();
+    }
 }

@@ -13,7 +13,7 @@ class ReviewService{
         $review->userId = $reviewDto->getUserId();
         $review->hotelId = $reviewDto->getHotelId();
         $review->review = $reviewDto->getReview();
-        $review->raiting = $reviewDto->getRaiting();
+        $review->rating = $reviewDto->getRating();
 
         $review->save();
         

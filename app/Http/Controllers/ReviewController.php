@@ -25,14 +25,14 @@ class ReviewController extends Controller
             "user_id" => "required|exists:users,id",
             "hotel_id" => "required|exists:hotels,id",
             "review" => "required|max:255",
-            "raiting" => "required|integer",
+            "rating" => "required|integer",
         ]);
 
         $reviewDto = new ReviewDto(
             $request->input('user_id'),
             $request->input('user_id'),
             $request->input('review'),
-            $request->input('raiting'),
+            $request->input('rating'),
         );
 
         $this->reviewService->createReview($reviewDto);

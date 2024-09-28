@@ -29,7 +29,7 @@ class ReviewDto
     {
         return $this->review;
     }
-    public function getRaiting(): int
+    public function getRating(): int
     {
         return $this->rating;
     }

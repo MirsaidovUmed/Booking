@@ -17,7 +17,6 @@ class BookingTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        DB::table('hotels');
 
         $this->artisan('db:seed', ['--class' => 'RoleSeeder']);
         $this->artisan('db:seed', ['--class' => 'HotelSeeder']);

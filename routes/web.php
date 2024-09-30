@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\FacilityController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +42,8 @@ Route::get('/rooms', [RoomController::class, 'index'])->name('room.index');
 Route::get('/room/{id}', [RoomController::class, 'getRoomById'])->name('room.getRoomById');
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/users', [AdminController::class, 'index'])->name('admin.show');
+
     Route::post('/hotels', [HotelController::class, 'store']);
     Route::put('/hotels/{id}', [HotelController::class, 'update']);
     Route::delete('/hotels/{id}', [HotelController::class, 'destroy']);
@@ -47,11 +51,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/rooms', [RoomController::class, 'store']);
     Route::put('/rooms/{id}', [RoomController::class, 'update']);
     Route::delete('/rooms/{id}', [RoomController::class, 'destroy']);
+
+    Route::get('/booking/{id}', [BookingController::class, 'getBookingById'])->name('bookings.show');
+    Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.delete');
+    
+    Route::get('/facilty', [FacilityController::class, 'index'])->name('facility.index');
+    Route::post('/facilty', [FacilityController::class, 'store'])->name('facility.store');
+    Route::put('/facilty/{id}', [FacilityController::class, 'update'])->name('facility.update');
+    Route::delete('/facilty/{id}', [FacilityController::class, 'delete'])->name('facility.delete');
 });
 
 Route::middleware('auth')->group(function(){
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
-    Route::get('/booking', [BookingController::class, 'index'])->name('bookings.show');
+    Route::get('/booking/{id}', [BookingController::class, 'getBookingById'])->name('bookings.show');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::put('/bookings/{id}', [BookingController::class, 'update'])->name('bookings.update');
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.delete');

@@ -8,6 +8,11 @@ use App\Dto\FacilityDto;
 
 class FacilityService
 {
+    public function index()
+    {
+        return Facility::paginate(10);
+    }
+
     public function create(FacilityDto $facilityDto)
     {
         $facility = Facility::firstOrCreate(['title' => $facilityDto->getTitle()]);

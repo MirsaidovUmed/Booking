@@ -20,6 +20,7 @@ class HotelSeeder extends Seeder
             'description' => $faker->text(200),
             'poster_url' => $faker->imageUrl(640, 480, 'hotels'),
             'address' => $faker->address,
+            'price' => $faker->numberBetween(1, 10000),
         ]);
     }
 }

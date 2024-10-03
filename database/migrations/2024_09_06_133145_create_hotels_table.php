@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('poster_url')->nullable();
             $table->string('address');
+            $table->decimal('price');
             $table->timestamps();
         });
     }

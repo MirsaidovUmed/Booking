@@ -14,6 +14,7 @@ class Hotel extends Model
         'description',
         'poster_url',
         'address',
+        'price',
     ];
 
     public function reviews()

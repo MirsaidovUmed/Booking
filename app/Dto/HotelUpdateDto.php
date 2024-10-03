@@ -7,13 +7,15 @@ class HotelUpdateDto{
     private string $description;
     private string $posterUrl;
     private string $address;
+    private float $price;
 
-    public function __construct(string $title, string $description, string $posterUrl, string $address)
+    public function __construct(string $title, string $description, string $posterUrl, string $address, float $price)
     {
         $this->title = $title;
         $this->description = $description;
         $this->posterUrl = $posterUrl;
         $this->address = $address;
+        $this->price = $price;
     }
 
     public function getTitle(): string
@@ -34,5 +36,10 @@ class HotelUpdateDto{
     public function getAddress(): string
     {
         return $this->address;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
     }
 }

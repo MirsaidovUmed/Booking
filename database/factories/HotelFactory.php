@@ -21,6 +21,7 @@ class HotelFactory extends Factory
             'description' => $this->faker->text(200),
             'poster_url' => $this->faker->imageUrl(640, 480, 'hotels'),
             'address' => $this->faker->address,
+            'price' => $this->faker->randomFloat(5, 1, 10000),
             'created_at' => now(),
             'updated_at' => now(),
         ];

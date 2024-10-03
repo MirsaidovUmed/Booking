@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Dto\HotelCreateDto;
+use App\Dto\HotelFilterDto;
 use App\Dto\HotelUpdateDto;
+use App\Models\FacilityEntity;
 use App\Models\Hotel;
 use App\Models\Room;
 
@@ -13,6 +15,31 @@ class HotelService
     public function index()
     {
         return Hotel::paginate(10);
+    }
+
+    public function filterHotels(HotelFilterDto $hotelFilterDto)
+    {
+        $hotels = Hotel::query();
+
+        if ($hotelFilterDto->getPriceMin() != null && $hotelFilterDto->getPriceMax() != null)
+        {
+            $hotels->whereBetween('price', [$hotelFilterDto->getPriceMin(), $hotelFilterDto->getPriceMax()]);
+        }
+
+        if ($hotelFilterDto->getCategory())
+        {
+            $hotels->where('category', $hotelFilterDto->getCategory());
+        }
+
+        if ($hotelFilterDto->getFacilities())
+        {
+            $facilityIds = $hotelFilterDto->getFacilities();
+            $hotels->whereHas('facilities', function ($query) use ($facilityIds) {
+                    $query->whereIn('facilities.id', $facilityIds);
+            });
+        }
+
+        return $hotels->paginate(10);
     }
 
     public function getHotelById(int $id)
@@ -30,7 +57,7 @@ class HotelService
         $hotel->description = $hotelDto->getDescription();
         $hotel->poster_url = $hotelDto->getPosterUrl();
         $hotel->address = $hotelDto->getAddress();
-
+        $hotel->price = $hotelDto->getPrice();
         $hotel->save();
 
         return $hotel;
@@ -44,7 +71,7 @@ class HotelService
         $hotel->description = $hotelDto->getDescription();
         $hotel->poster_url = $hotelDto->getPosterUrl();
         $hotel->address = $hotelDto->getAddress();
-
+        $hotel->price = $hotelDto->getPrice();
         $hotel->update();
 
         return $hotel;

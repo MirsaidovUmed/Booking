@@ -8,7 +8,7 @@
             </div>
             @if($showLink ?? false)
             <div class="flex">
-                <x-link-button href="{{ route('bookings.show', ['booking' => $booking]) }}">Подробнее</x-link-button>
+                <x-link-button href="{{ route('bookings.show', ['id' => $booking->id]) }}">Подробнее</x-link-button>
             </div>
             @endif
         </div>

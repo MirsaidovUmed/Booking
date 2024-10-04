@@ -6,9 +6,9 @@ class HotelFilterDto{
     private ?int $priceMin;
     private ?int $priceMax;
     private ?string $category;
-    private ?string $facilities;
+    private ?array $facilities;
 
-    public function __construct(?int $priceMin, ?int $priceMax, ?string $category, ?string $facilities)
+    public function __construct(?int $priceMin = null, ?int $priceMax = null, ?string $category = null, ?array $facilities = null)
     {
         $this->priceMin = $priceMin;
         $this->priceMax = $priceMax;
@@ -31,7 +31,7 @@ class HotelFilterDto{
         return $this->category;
     }
 
-    public function getFacilities(): ?string
+    public function getFacilities(): ?array
     {
         return $this->facilities;
     }

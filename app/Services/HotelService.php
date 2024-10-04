@@ -35,7 +35,7 @@ class HotelService
         {
             $facilityIds = $hotelFilterDto->getFacilities();
             $hotels->whereHas('facilities', function ($query) use ($facilityIds) {
-                    $query->whereIn('facilities.id', $facilityIds);
+                    $query->whereIn('facility_id', $facilityIds);
             });
         }
 

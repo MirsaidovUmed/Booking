@@ -21,7 +21,8 @@
     ```sh
    composer require laravel/sail --dev
    php artisan sail:install
-   
+    sail npm install   
+
 5. Using Makefile with sail (Info in Makefile)
 
 ## Project Overview

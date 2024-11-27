@@ -64,8 +64,8 @@ class HttpClient implements HttpClientInterface
         curl_setopt($curlHandle, \CURLOPT_URL, $dsn->getEnvelopeApiEndpointUrl());
         curl_setopt($curlHandle, \CURLOPT_HTTPHEADER, $requestHeaders);
         curl_setopt($curlHandle, \CURLOPT_USERAGENT, $this->sdkIdentifier . '/' . $this->sdkVersion);
-        curl_setopt($curlHandle, \CURLOPT_TIMEOUT, $options->getHttpTimeout());
-        curl_setopt($curlHandle, \CURLOPT_CONNECTTIMEOUT, $options->getHttpConnectTimeout());
+        curl_setopt($curlHandle, \CURLOPT_TIMEOUT_MS, $options->getHttpTimeout() * 1000);
+        curl_setopt($curlHandle, \CURLOPT_CONNECTTIMEOUT_MS, $options->getHttpConnectTimeout() * 1000);
         curl_setopt($curlHandle, \CURLOPT_ENCODING, '');
         curl_setopt($curlHandle, \CURLOPT_POST, true);
         curl_setopt($curlHandle, \CURLOPT_POSTFIELDS, $requestData);
@@ -76,6 +76,17 @@ class HttpClient implements HttpClientInterface
         $httpSslVerifyPeer = $options->getHttpSslVerifyPeer();
         if (!$httpSslVerifyPeer) {
             curl_setopt($curlHandle, \CURLOPT_SSL_VERIFYPEER, false);
+        }
+
+        $httpSslNativeCa = $options->getHttpSslNativeCa();
+        if ($httpSslNativeCa) {
+            if (
+                \defined('CURLSSLOPT_NATIVE_CA')
+                && isset(curl_version()['version'])
+                && version_compare(curl_version()['version'], '7.71', '>=')
+            ) {
+                curl_setopt($curlHandle, \CURLOPT_SSL_OPTIONS, \CURLSSLOPT_NATIVE_CA);
+            }
         }
 
         $httpProxy = $options->getHttpProxy();

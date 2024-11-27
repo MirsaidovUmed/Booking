@@ -14,6 +14,7 @@ down: ## Down containers in current project
 
 restart: ## Restart containers
 	$(SAIL) restart
+	$(SAIL) npm run dev
 
 migrate: ## run migrations
 	$(SAIL) artisan migrate

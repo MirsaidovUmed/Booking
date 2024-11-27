@@ -1,5 +1,28 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-<h1 align="center">Hotel Booking Service<h1>
+<h1 align="center">Hotel Booking Service</h1>
+
+## Installation
+
+1. Clone the repository:
+    ```sh
+   git clone git@github.com:MirsaidovUmed/Booking.git
+
+2. Navigate to the project directory:
+    ```sh
+   cd Booking
+
+3. Install the required dependencies:
+    ```sh
+   composer update
+   cp .env.example .env
+   php artisan key:generate
+   
+4. If using Laravel Sail
+    ```sh
+   composer require laravel/sail --dev
+   php artisan sail:install
+   
+5. Using Makefile with sail (Info in Makefile)
 
 ## Project Overview
 A hotel booking service is an online platform that allows users to search for hotels and book rooms globally. Users can filter hotels by price, location, amenities, and more.

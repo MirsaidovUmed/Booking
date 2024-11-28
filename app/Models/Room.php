@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Room extends Model
 {
     use HasFactory;
 
-    protected $filable = [
+    protected $fillable = [
         'title',
         'description',
         'poster_url',
@@ -19,17 +22,17 @@ class Room extends Model
         'hotel_id',
     ];
 
-    public function hotel()
+    public function hotel(): BelongsTo
     {
         return $this->belongsTo(Hotel::class);
     }
 
-    public function rooms()
+    public function rooms(): HasMany
     {
         return $this->hasMany(Room::class);
     }
 
-    public function facilities()
+    public function facilities(): MorphMany
     {
         return $this->morphMany(FacilityEntity::class, 'entity');
     }

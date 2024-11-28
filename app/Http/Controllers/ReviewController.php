@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Dto\ReviewDto;
 use App\Services\ReviewService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
 
 class ReviewController extends Controller
 {
-    public $reviewService;
-    public $validator;
+    public ReviewService $reviewService;
+    public ValidationFactory $validator;
 
     public function __construct(ValidationFactory $validator, ReviewService $reviewService)
     {
@@ -19,7 +20,7 @@ class ReviewController extends Controller
         $this->reviewService = $reviewService;
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->validator->make($request->all(), [
             "user_id" => "required|exists:users,id",
@@ -39,7 +40,7 @@ class ReviewController extends Controller
         return back()->with('status', 'Review Added successfully');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): RedirectResponse
     {
         $this->reviewService->delete($id);
         return back()->with('status', 'Review Deleted successfully');

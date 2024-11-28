@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Dto\BookingCreateDto;
 use App\Dto\BookingUpdateDto;
 use App\Services\BookingService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class BookingController extends Controller
 {
-    protected $bookingService;
-    protected $validator;
+    protected BookingService $bookingService;
+    protected ValidationFactory $validator;
 
     public function __construct(BookingService $bookingService, ValidationFactory $validator)
     {
@@ -21,19 +27,22 @@ class BookingController extends Controller
         $this->validator = $validator;
     }
 
-    public function index()
+    public function index(): View
     {
         $bookings = $this->bookingService->index();
         return view('bookings.index', ['bookings' => $bookings]);
     }
 
-    public function getBookingById(int $id)
+    public function getBookingById(int $id): View
     {
         $booking = $this->bookingService->getBookingById($id);
         return view('bookings.show', ['booking' => $booking]);
     }
 
-    public function store(Request $request)
+    /**
+     * @throws ValidationException
+     */
+    public function store(Request $request): JsonResponse
     {
         $this->validator->make($request->all(), [
             "room_id" => "required|exists:rooms,id",
@@ -53,10 +62,13 @@ class BookingController extends Controller
             $request->input('price'),
         );
         $this->bookingService->create($bookingDto);
-        return response()->json(['status' => 'Booking Added successfully'], 201); 
+        return response()->json(['status' => 'Booking Added successfully'], 201);
     }
 
-    public function update(Request $request, int $id)
+    /**
+     * @throws ValidationException
+     */
+    public function update(Request $request, int $id): JsonResponse
     {
         $this->validator->make($request->all(), [
             "room_id" => "required|exists:rooms,id",
@@ -75,10 +87,10 @@ class BookingController extends Controller
             $request->input('price'),
         );
         $this->bookingService->update($bookingDto, $id);
-        return response()->json(['status' => 'Booking Updated successfully'], 202);    
+        return response()->json(['status' => 'Booking Updated successfully'], 202);
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): Response
     {
         $this->bookingService->delete($id);
         return response()->noContent();

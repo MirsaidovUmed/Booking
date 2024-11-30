@@ -54,11 +54,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/booking/{id}', [BookingController::class, 'getBookingById'])->name('bookings.show');
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.delete');
-    
-    Route::get('/facilty', [FacilityController::class, 'index'])->name('facility.index');
-    Route::post('/facilty', [FacilityController::class, 'store'])->name('facility.store');
-    Route::put('/facilty/{id}', [FacilityController::class, 'update'])->name('facility.update');
-    Route::delete('/facilty/{id}', [FacilityController::class, 'delete'])->name('facility.delete');
+
+    Route::get('/facility', [FacilityController::class, 'index'])->name('facility.index');
+    Route::post('/facility', [FacilityController::class, 'store'])->name('facility.store');
+    Route::put('/facility/{id}', [FacilityController::class, 'update'])->name('facility.update');
+    Route::delete('/facility/{id}', [FacilityController::class, 'delete'])->name('facility.delete');
 });
 
 Route::middleware('auth')->group(function(){
